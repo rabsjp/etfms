@@ -49,7 +49,7 @@ st3<-tapply(dprice3$prices[dprice3$tre==3],dprice3$r[dprice3$tre==3],sd,na.rm=T)
 
 tplot<-as.data.frame(cbind(pt1,c(1:7)))
 
-pdf("sum_prices.pdf")
+pdf(here("outputs/sum_prices.pdf"))
 plot(dprice2$r[dprice2$activo==2 & dprice2$tre==1],dprice2$prices[dprice2$activo==3 & dprice2$tre==1]-dprice2$prices[dprice2$activo==2 & dprice2$tre==1],type="l",ylim=c(-10,40),xlab="periods",main=expression('P'[C] - 'P'[B]), ylab="value",lwd=2, cex.lab=1.2,cex.main=2)
 lines(dprice2$r[dprice2$activo==2 & dprice2$tre==2],dprice2$prices[dprice2$activo==3 & dprice2$tre==2]-dprice2$prices[dprice2$activo==2 & dprice2$tre==2],col="blue",lwd=2,lty=2, cex=1.5)
 lines(dprice2$r[dprice2$activo==2 & dprice2$tre==3],dprice2$prices[dprice2$activo==3 & dprice2$tre==3]-dprice2$prices[dprice2$activo==2 & dprice2$tre==3],col="red",lwd=2,lty=3, cex=1.5)
@@ -57,7 +57,7 @@ abline(h=0,lty=2,col="gray")
 legend(1,40,c("ABC","A2C","A2C short"),col=c("black", "blue","red"),lty=c(1,2,3),cex=1.4,bty = "n")
 dev.off()
 
-pdf("sum_ordenes.pdf")
+pdf(here("outputs/sum_ordenes.pdf"))
 plot(dprice2$r[dprice2$activo==2 & dprice2$tre==1],dprice2$ordenes[dprice2$activo==3 & dprice2$tre==1]-dprice2$ordenes[dprice2$activo==2 & dprice2$tre==1],type="l",ylim=c(-2,5),xlab="periods",main=expression('z'[C] - 'z'[B]), ylab="value", lwd=2, cex.lab=1.2,cex.main=2)
 lines(dprice2$r[dprice2$activo==2 & dprice2$tre==2],dprice2$ordenes[dprice2$activo==3 & dprice2$tre==2]-dprice2$ordenes[dprice2$activo==2 & dprice2$tre==2],col="blue",lwd=2,lty=2)
 lines(dprice2$r[dprice2$activo==2 & dprice2$tre==3],dprice2$ordenes[dprice2$activo==3 & dprice2$tre==3]-dprice2$ordenes[dprice2$activo==2 & dprice2$tre==3],col="red",lwd=2,lty=3)
@@ -65,15 +65,16 @@ abline(h=0,lty=2,col="gray")
 legend(5,5,c("ABC","A2C","A2C short"),col=c("black", "blue","red"),lty=c(1,2,3),cex=1.4,bty = "n")
 dev.off()
 
+
 data<-d
 numero<-1
 breakdance<-data$dt*c(1:dim(data)[1])
 breakdance<-breakdance[breakdance>0]
 #5,6,7,9,
 
-
 #Draw examples
-png("example_z_1.png", width = 700, height = 500)
+
+png(here("outputs/example_z_1.png"), width = 700, height = 500)
 exa<-"mqshq7o7"
 plot(data$z[data$activo==1 & data$sess==exa],cex=1,col="gray",ylim=c(-10,12),type="l",ylab = "order imbalance",xlab="periods",xaxt='n',cex.lab=1.4)
 lines(data$z[data$activo==2 & data$sess==exa],cex=1,col="red",type="l")
@@ -92,7 +93,7 @@ text(x=xtick,  par("usr")[3],
      labels = seq(1,7), srt = 45, pos = 1, xpd = T)
 dev.off()
 
-png("example_p_1.png", width = 700, height = 500)
+png(here("outputs/example_p_1.png"), width = 700, height = 500)
 plot(data$precio[data$activo==1 & data$sess==exa],cex=1,col="gray",ylim=c(0,250),type="o",ylab = "price",xlab="periods",xaxt='n', cex.lab=1.4)
 points(data$precio[data$activo==2 & data$sess==exa],cex=1,col="red")
 points(data$precio[data$activo==3 & data$sess==exa],col="orange")
@@ -112,8 +113,7 @@ text(x=xtick,  par("usr")[3],
 legend(200,11,legend=c("A","B","C","ETF"),col=c("gray","red","orange","black"),cex=1.4,bty="n",horiz=TRUE,inset=.02,pch=c(1,1,1,16))
 dev.off()
 
-
-png("example_z_2.png", width = 700, height = 500)
+png(here("outputs/example_z_2.png"), width = 700, height = 500)
 exa<-"fbyj5j85"
 plot(data$z[data$activo==1 & data$sess==exa],cex=1,col="gray",ylim=c(-10,12),type="l",ylab = "order imbalance",xlab="periods",xaxt='n',cex.lab=1.4)
 lines(data$z[data$activo==2 & data$sess==exa],cex=1,col="red",type="l")
@@ -133,7 +133,7 @@ text(x=xtick,  par("usr")[3],
 legend(200,8,legend=c("A","B","C","ETF"),col=c("gray","red","orange","black"),cex=1.4,bty="n",lty=1,horiz=TRUE,inset=.02)
 dev.off()
 
-png("example_p_2.png", width = 700, height = 500)
+png(here("outputs/example_p_2.png"), width = 700, height = 500)
 plot(data$precio[data$activo==1 & data$sess==exa],cex=1,col="gray",ylim=c(0,300),type="o",ylab = "price",xlab="periods",xaxt='n',cex.lab=1.4)
 points(data$precio[data$activo==2 & data$sess==exa],cex=1,col="red")
 points(data$precio[data$activo==3 & data$sess==exa],col="orange")
@@ -158,8 +158,7 @@ for(numero in seq(1:length(unique(data$sess)))){
   exa<-unique(data$sess)[numero]
   t<-max(data$tre[data$sess==exa])
   nombre<-paste(t,"_",exa,".png",sep="")
-  
-  png(nombre, width = 1000, height = 500)
+  png(here(paste("outputs/",nombre,sep="")),width = 1000, height = 500)
   par(mfrow=c(3,2))
   plot(data$bb[data$activo==4 & data$sess==exa],type="l",ylim=c(0,300),ylab = "value",xlab="period",main="ETF",xaxt='n')
   #points(data$z[data$activo==4 & data$sess==exa]*200/60+200,pch=2,cex=.1,col="blue")

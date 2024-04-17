@@ -3,8 +3,9 @@ library(dplyr)
 library(tidyverse)
 library(xtable)
 library(here)
-load("~/Desktop/jotarepos/etfms/clean/alltrades.Rda")
-players<-read.csv("~/Desktop/jotarepos/etfms/clean/total_players.csv",sep=";",header=T, stringsAsFactors = FALSE)
+
+load(here("clean/alltrades.Rda"))
+players<-read.csv(here("clean/total_players.csv"),sep=";",header=T, stringsAsFactors = FALSE)
 
 ###Table of Buy-Hold ETFs
 dw = inner_join(dd, players, by="session")
@@ -26,11 +27,8 @@ bot_buy_D_taker <- dw %>% filter(asset == 4 & make_isbid==F & taker_isBot==T)
 
 
 t1 = table(dw$isBot[dw$asset==4 & dw$tre==1],dw$session[dw$asset==4& dw$tre==1]) 
-
 t2 = table(dw$isBot[dw$asset==4 & dw$tre==2],dw$session[dw$asset==4& dw$tre==2]) 
-
 t3 = table(dw$isBot[dw$asset==4 & dw$tre==3],dw$session[dw$asset==4& dw$tre==3]) 
-
 bh = rbind(sort(t1[2,]/apply(t1,2,sum)), sort(t2[2,]/apply(t2,2,sum)), sort(t3[2,]/apply(t3,2,sum)))
 xtable(bh)
 xtable(rbind(t1[c(2:1),],t2[c(2:1),],t3[c(2:1),]))
@@ -71,6 +69,7 @@ solo_sell_c <- sell_c %>%
 
 buy_b_sell_c <- inner_join(solo_buy_b,solo_sell_c ,by.x=c("round", "tre","p_code"), by.y=c("round", "tre","p_code"))
 
+
 ###Table of buy-sell C and B. 
 
 sell_b <- dw %>% filter(asset == 2 & make_isbid==F )  %>%
@@ -110,6 +109,7 @@ buy_c_sell_b <- inner_join(solo_buy_c,solo_sell_b ,by.x=c("round", "tre","p_code
 bs1 <- c(table(buy_b_sell_c$tre)/7)/c(58,62,62)
 bs2 <- c(table(buy_c_sell_b$tre)/7)/c(58,62,62)
 
+#Table D.3.
 xtable(rbind(bs1,bs2))
 
 

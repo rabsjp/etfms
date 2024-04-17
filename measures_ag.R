@@ -1,14 +1,15 @@
-rm(list = ls())
+#rm(list = ls())
 library(dplyr)
 library(tidyverse)
 library(xtable)
 library(here)
 library(coin)
 
-load("~/Desktop/jotarepos/capmout/clean/alltrades.Rda")
+load(here("clean/alltrades.Rda"))
+
+load(here("spreads_session.Rda"))
 
 load(here("holdings/holdings.Rda"))
-load(here("spreads_session.Rda"))
 
 dd[["isBot"]] <- grepl("Bot", dd[["make_pcode"]]) | grepl("Bot", dd[["take_pcode"]])
 dd[["maker_isBot"]] <- grepl("Bot", dd[["make_pcode"]])
@@ -56,15 +57,14 @@ rho13$values<-as.numeric(rho13$values)
 rho13$tre<-as.factor(rho13$tre)
 oneway_test(values~tre,data=rho13)
 
-# price of a in treatment 1 v. 3
+# Price of A in treatment 1 v. 3
 a13<-as.data.frame(cbind(c(d$precio[d$asset==1 & d$tre==3],d$precio[d$asset==1 & d$tre==1]),c(rep("one",5),rep("two",5))))
 names(a13)<-c("values","tre")
 a13$values<-as.numeric(a13$values)
 a13$tre<-as.factor(a13$tre)
 oneway_test(values~tre,data=a13)
 
-
-# price of a in treatment 1 v. 2
+# price of A in treatment 1 v. 2
 a12<-as.data.frame(cbind(c(d$precio[d$asset==1 & d$tre==2],d$precio[d$asset==1 & d$tre==1]),c(rep("one",5),rep("two",5))))
 names(a12)<-c("values","tre")
 a12$values<-as.numeric(a12$values)
@@ -85,13 +85,12 @@ etf23$values<-as.numeric(etf23$values)
 etf23$tre<-as.factor(etf23$tre)
 oneway_test(values~tre,data=etf23)
 
+# price of etf in treatment 1 v. 2
 etf12<-as.data.frame(cbind(c(d$precio[d$asset==4 & d$tre==2],d$precio[d$asset==4 & d$tre==1]),c(rep("one",5),rep("two",5))))
 names(etf12)<-c("values","tre")
 etf12$values<-as.numeric(etf12$values)
 etf12$tre<-as.factor(etf12$tre)
 oneway_test(values~tre,data=etf12)
-
-
 
 # price of etf against FV
 etf2<-as.data.frame(cbind(c(d$precio[d$asset==4 & d$tre==2],rep(200,5)),c(rep("one",5),rep("two",5))))
@@ -298,4 +297,4 @@ for(t in 1:3){
     pETF[t,s]<- sum(et==ud)
   }
 }  
-print(apply(pETF/qETF,1,mean))
+#print(apply(pETF/qETF,1,mean))

@@ -1,9 +1,8 @@
-rm(list = ls())
 library(dplyr)
 library(tidyverse)
 library(xtable)
-
-load("~/Desktop/jotarepos/capmout/clean/alldata.Rda")
+library(here)
+load(here("clean/alldata.Rda"))
 
 d <- arrange(d, d$session, d$round, d$tiempo)
 

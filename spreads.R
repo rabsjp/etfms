@@ -1,4 +1,4 @@
-rm(list = ls())
+#rm(list = ls())
 library(dplyr)
 library(tidyverse)
 library(xtable)
@@ -23,6 +23,7 @@ dw<- dw %>% group_by(sess, tre)  %>%
             z1= mean(z_1,na.rm=T),z2= mean(z_2,na.rm=T),z3= mean(z_3,na.rm=T),z4= mean(z_4,na.rm=T),bo32= mean(bo32,na.rm=T))
 
 save(dw,file="spreads_session.Rda")
+
 mean(dw$sp2[dw$tre==1],na.rm=T)
 mean(dw$sp2[dw$tre==2],na.rm=T)
 mean(dw$sp2[dw$tre==3],na.rm=T)
@@ -163,10 +164,6 @@ tb$values<-as.numeric(tb$values)
 tb$tre<-as.factor(tb$tre)
 oneway_test(values~tre,data=tb)
 
-spre2<-tapply(d$spre[d$activo==2],d$tre[d$activo==2],mean,na.rm=T)
-spre3<-tapply(d$spre[d$activo==3],d$tre[d$activo==3],mean,na.rm=T)
-spre4<-tapply(d$spre[d$activo==4],d$tre[d$activo==4],mean,na.rm=T)
-
 d$spre<- d$bo-d$bb
 
 spre1<-tapply(d$spre[d$activo==1],d$tre[d$activo==1],mean,na.rm=T)
@@ -179,6 +176,7 @@ spre4<-tapply(d$spre[d$activo==4],d$tre[d$activo==4],mean,na.rm=T)
 xtable(round(rbind(z1,z2,z3,z4),2))
 xtable(round(rbind(spre1,spre2,spre3,spre4),2))
 ##
+
 
 spreads<-NA
 spreads2<-NA
@@ -230,10 +228,6 @@ table_spr<-table_spr[!is.na(table_spr[,1]),]
 table_spr<-rbind(table_spr,table_spr[4,]-table_spr[1,])
 
 xtable(table_spr)
-
-
-xtable(as.data.frame(t(table_vender)))
-
 
 table_vender <- apply(spreads,2,mean,na.rm=T)
 xtable(as.data.frame(t(table_vender)))

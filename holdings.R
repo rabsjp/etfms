@@ -1,10 +1,8 @@
-rm(list = ls())
+#rm(list = ls())
 library(dplyr)
 library(here)
-
 library(xtable)
-#setwd("/cloud/project/data/abcone")
-rm(list = ls())
+#rm(list = ls())
 
 # add paths to files
 your_path<-here("holdings")

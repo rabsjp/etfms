@@ -4,7 +4,11 @@ library(ggplot2)
 library(dplyr)
 library(tidyverse)
 library(xtable)
-setwd("~/Desktop/jotarepos/capmout/abc//")
+library(here)
+
+setwd(here("abc"))
+# Do this for each folder abc, a2c, a2c_ss
+
 files = list.files(pattern="*json")
 protect_against_null <- function( x ) {
   if( is.null(x) )
@@ -76,7 +80,7 @@ makers<-rbind(makers,takers)
 df<- df  %>% left_join(makers, by = c("id"= "make_id"))
 
 #df$time_inactive[df$status=="CANCELED"]<-df$time_inactive[df$status=="CANCELED"]+7200
-df$tre<-1 #1 refers to ABC 2 to A2B
+df$tre<-1 #1 refers to ABC 2 to A2B, 3 to A2B_SS
 df$session<-unlist(strsplit(nombre, split='.', fixed=TRUE))[1]
 
 for(r in 2:length(unique(df$round))){
@@ -90,7 +94,7 @@ for(r in 2:length(unique(df$round))){
 }
 
 
-dt$tre<-1
+dt$tre<-1 #1 refers to ABC 2 to A2B, 3 to A2B_SS
 dt$session<-unlist(strsplit(nombre, split='.', fixed=TRUE))[1]
 
 d_pcodes<- df %>% select(id,pcode)
@@ -106,33 +110,5 @@ d_bid<- df %>% select(id,bid)
 dt<- dt %>% inner_join(d_bid, by = c("make_id" = "id"))
 colnames(dt)[12] = "make_isbid"
 
-
 save(df,file=paste("data_",df$session[1],".Rda",sep=""))
 save(dt,file=paste("datatrades_",dt$session[1],".Rda",sep=""))
-
-
-## Put all data together using clean folder
-rm(list = ls())
-
-setwd("~/Desktop/jotarepos/capmout/clean")
-#setwd("~/Desktop/jotarepos/capmout/a2c/clean")
-files<-list.files(pattern="data_")
-d<-NULL
-for (f in files){
-  load(f)
-  d<-rbind(d,df)
-}
-
-files_t<-list.files(pattern="datatrades*")
-dd<-NULL
-for (f in files_t){
-  load(f)
-  dd<-rbind(dd,dt)
-}
-
-
-#load("~/Desktop/jotarepos/capm/Data/alldata.Rda")
-save(d,file="alldata.Rda")
-save(dd,file="alltrades.Rda")
-
-

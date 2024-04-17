@@ -1,4 +1,4 @@
-rm(list = ls())
+#rm(list = ls())
 library(dplyr)
 library(here)
 library(xtable)
@@ -34,7 +34,7 @@ etf12$tipo<-as.factor(etf12$tipo)
 oneway_test(values~tipo,data=etf12)
 
 #Figure 5 
-png("imbalance_etfs_1.png", width = 500, height = 500)
+png(here("outputs/imbalance_etfs_1.png"), width = 500, height = 500)
 plot(ecdf(ds$imba[ds$tre<3 & !!(ds$player.id_in_group %% 2) & ds$q_etf>0]),verticals=T,cex=0,lwd=2,lty=2,xlab="value",ylab="CDF",main="Type I",xlim=c(0,0.8),cex.lab=1.4, cex.main=2)
 lines(ecdf(ds$imba[ds$tre<3 & !!(ds$player.id_in_group %% 2)& ds$q_etf==0]),verticals=T,cex=0,lwd=2,lty=2,col="gray")
 abline(v=abs((6-2)/(3+1+1)),lty=2)
@@ -42,7 +42,7 @@ text(x=abs((6-2)/(3+1+1))-.13,.1,"Type I initial imbalance",cex=1,lwd=2)
 legend(0.01,.95,c("With ETF","Without ETF"),col=c("black", "gray"),lty=c(2,2),cex=1.2,bty = "n")
 dev.off()
 
-png("imbalance_etfs_2.png", width = 500, height = 500)
+png(here("outputs/imbalance_etfs_2.png"), width = 500, height = 500)
 plot(ecdf(ds$imba[ds$tre<3 & !(ds$player.id_in_group %% 2) & ds$q_etf>0]),verticals=T,cex=0,lwd=2,lty=2,xlab="value",ylab="CDF",main="Type II",cex.lab=1.4,cex.main=2)
 lines(ecdf(ds$imba[ds$tre<3 & !(ds$player.id_in_group %% 2)& ds$q_etf==0]),verticals=T,cex=0,lwd=2,lty=2,col="gray")
 abline(v=abs((2-6)/(1+3+3)),col="black",lty=2)
